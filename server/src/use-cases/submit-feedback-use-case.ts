@@ -28,14 +28,14 @@ export class SubmitFeedbackUseCase {
             throw new Error('type is required!');
         }
 
-        if(screenshot && !screenshot.startsWith('data:imagem/png;base64')) {
-            throw new Error('Invalid screenshot format!');
-        }
+        if (screenshot && !screenshot.startsWith("data:image/png;base64")) {
+            throw new Error("Invalid screenshot format.");
+          }
 
         await this.feedbackRepository.create({
             type,
             comment,
-            screenshot
+            screenshot,
         })
 
         await this.mailAdapter.sendMail({

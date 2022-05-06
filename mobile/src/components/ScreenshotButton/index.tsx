@@ -6,25 +6,25 @@ import { theme } from '../../theme';
 import { styles } from './styles';
 
 interface Props {
-    screenShot: string | null;
+    screenshot: string | null;
     onTakeShot: () => void;
     onRemoveShot: () => void;
 }
 
-export function ScreenshotButton({screenShot, onTakeShot, onRemoveShot} :Props) {
+export function ScreenshotButton({screenshot, onTakeShot, onRemoveShot} :Props) {
   return (
     <TouchableOpacity
      style={styles.container}
-     onPress={screenShot ? onRemoveShot : onTakeShot}
+     onPress={screenshot ? onRemoveShot : onTakeShot}
      >
 
          {
-            screenShot
+            screenshot
             ?
             <View>
               <Image 
               style={styles.image}
-              source={{uri:screenShot}}
+              source={{uri:screenshot}}
               />
               <Trash 
               size={22}

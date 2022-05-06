@@ -36,7 +36,7 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}: Props) 
     
     function handleScreenshot() {
         captureScreen({
-            format: 'jpg',
+            format: 'png',
             quality: 0.8
         })
         .then(uri => {
@@ -57,12 +57,13 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}: Props) 
         }
 
         setIsSendFeedback(true);
-        const screenshotBase64 = screenshot && FileSystem.readAsStringAsync(screenshot, {encoding: 'base64'})
+        const screenshotBase64 = screenshot && await FileSystem.readAsStringAsync(screenshot, { encoding: 'base64' });
 
+        // CONSUMINDO A API 
         try {
             await api.post('/feedbacks', {
                 type: feedbackType,
-                screenshot: `data:image/png:base64, ${screenshotBase64}`,
+                screenshot: `data:image/png;base64, ${screenshotBase64}`,
                 comment
                 
             });
@@ -107,7 +108,7 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}: Props) 
         style={styles.input}
         placeholder="Algo não está funcionando bem?  Queremos corrigir."
         placeholderTextColor={theme.colors.surface_secondary}
-      
+        autoCorrect={false}
         onChangeText={setComment}
         />
 
@@ -115,7 +116,7 @@ export function Form({feedbackType, onFeedbackCanceled, onFeedbackSent}: Props) 
             <ScreenshotButton 
             onTakeShot={handleScreenshot}
             onRemoveShot={handleScreenshotRemove}
-            screenShot={screenshot}
+            screenshot={screenshot}
             />
 
             <Button 
